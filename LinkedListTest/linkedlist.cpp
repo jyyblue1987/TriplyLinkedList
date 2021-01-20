@@ -1,4 +1,5 @@
 #include "linkedlist.h"
+#include <iostream>
 #include <stdlib.h>
 
 #ifndef NULL
@@ -12,6 +13,21 @@ linkedlist::linkedlist(void)
 	head_speed = NULL;
 }
 
+linkedlist::~linkedlist(void) {
+	Node *cur = NULL;
+	Node *next = NULL;
+
+	cur = head_sector;
+	while(cur) {
+		next = cur->next_sector;
+		free(cur);		
+		cur = next;
+	}
+	head_sector = NULL;
+	head_exposure = NULL;
+	head_speed = NULL;
+}
+
 void linkedlist::addNode(int sector, int exposure, int speed) 
 {
 	Node *node = (Node *) malloc(sizeof(Node));
@@ -20,13 +36,15 @@ void linkedlist::addNode(int sector, int exposure, int speed)
 	node->speed = speed;
 	node->next_sector = NULL;
 	node->next_exposure = NULL;
-	node->next_sector = NULL;
+	node->next_speed = NULL;
 
 	Node *sector_node = findSectorNode(sector, exposure, speed);
 	Node *exposure_node = findExposureNode(sector, exposure, speed);
 	Node *speed_node = findSpeedNode(sector, exposure, speed);
 
 	addNodeToSectorChain(sector_node, node);
+	addNodeToExposureChain(exposure_node, node);
+	addNodeToSpeedChain(speed_node, node);
 }
 
 void linkedlist::addNodeToSectorChain(Node *prev, Node *cur) 
@@ -66,23 +84,18 @@ void linkedlist::addNodeToSpeedChain(Node *prev, Node *cur)
 Node* linkedlist::findSectorNode(int sector, int exposure, int speed) 
 {
 	Node *cur = head_sector;
-	while(cur) {
-		if( cur->sector < sector )
+	Node *next = NULL;
+
+	while(cur) 
+	{
+		next = cur->next_sector;
+		if( next == NULL )
 			break;
-		cur = cur->next_sector;
+		if( sector < next->sector )
+			break;
+		cur = next;
 	}
 
-	while(cur) {
-		if( cur->exposure < exposure )
-			break;
-		cur = cur->next_sector;
-	}
-
-	while(cur) {
-		if( cur->speed < speed )
-			break;
-		cur = cur->next_sector;
-	}
 
 	return cur;
 }
@@ -90,48 +103,34 @@ Node* linkedlist::findSectorNode(int sector, int exposure, int speed)
 Node* linkedlist::findExposureNode(int sector, int exposure, int speed) 
 {
 	Node *cur = head_exposure;
+	Node *next = NULL;
 
-	while(cur) {
-		if( cur->exposure < exposure )
+	while(cur) 
+	{
+		next = cur->next_exposure;
+		if( next == NULL )
 			break;
-		cur = cur->next_sector;
-	}
- 
-	while(cur) {
-		if( cur->sector < sector )
+		if( exposure < next->exposure )
 			break;
-		cur = cur->next_sector;
+		cur = next;
 	}
 
-	while(cur) {
-		if( cur->speed < speed )
-			break;
-		cur = cur->next_sector;
-	}
 	return cur;
 }
 
 Node* linkedlist::findSpeedNode(int sector, int exposure, int speed) 
 {
 	Node *cur = head_speed;
+	Node *next = NULL;
 
-
-	while(cur) {
-		if( cur->speed < speed )
+	while(cur) 
+	{
+		next = cur->next_speed;
+		if( next == NULL )
 			break;
-		cur = cur->next_sector;
-	}
-
-	while(cur) {
-		if( cur->sector < sector )
+		if( speed < next->speed )
 			break;
-		cur = cur->next_sector;
-	}
-
-	while(cur) {
-		if( cur->exposure < exposure )
-			break;
-		cur = cur->next_sector;
+		cur = next;
 	}
 
 	return cur;
@@ -230,5 +229,52 @@ void linkedlist::updateNextPointer(Node *node)
 		}
 		prev = cur;
 		cur = next;
+	}
+}
+
+void linkedlist::printListBySector() 
+{
+	std::cout << "----------------------------------------------------------------------" << std::endl;
+	std::cout << "Data by Sector" << std::endl;
+	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
+
+	Node *cur = head_sector;
+
+	while(cur)
+	{
+		std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;
+		cur = cur->next_sector;
+	}
+}
+
+void linkedlist::printListByExposure()
+{
+	std::cout << "----------------------------------------------------------------------" << std::endl;
+	std::cout << "Data by Exposure" << std::endl;
+	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
+
+	Node *cur = head_exposure;
+
+	while(cur)
+	{
+		std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;
+		cur = cur->next_exposure;
+	}
+}
+
+
+void linkedlist::printListBySpeed()
+{
+	std::cout << "----------------------------------------------------------------------" << std::endl;
+	std::cout << "Data by Speed" << std::endl;
+	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
+
+
+	Node *cur = head_speed;
+
+	while(cur)
+	{
+		std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;
+		cur = cur->next_speed;
 	}
 }

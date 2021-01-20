@@ -1,6 +1,9 @@
 #pragma once
+
+#include "linkedlist.h"
 class datalogger
 {
+	linkedlist m_lk;
 public:
 	datalogger(void);
 
