@@ -24,13 +24,12 @@ void datalogger::removeSector(int sector)
 
 void datalogger::printReport() 
 {
-	std::cout << "----------------------------------------------------------------------" << std::endl;
-	std::cout << "Data by sector" << std::endl;
-	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
-
 	m_lk.printListBySector();
 	m_lk.printListByExposure();
 	m_lk.printListBySpeed();
+
+	m_lk.printAverage();
+
 }
 
 void datalogger::printSectorList() 

@@ -1,6 +1,7 @@
 #include "linkedlist.h"
 #include <iostream>
 #include <stdlib.h>
+#include "surveydata.h"
 
 #ifndef NULL
 #define NULL 0
@@ -252,32 +253,42 @@ void linkedlist::updateNextPointer(Node *node)
 	}
 }
 
-void linkedlist::printListBySector() 
+void linkedlist::printHeader(char* header)
 {
 	std::cout << "----------------------------------------------------------------------" << std::endl;
-	std::cout << "Data by Sector" << std::endl;
+	std::cout << header << std::endl;
 	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
+}
+
+void linkedlist::printData(Node *cur)
+{
+	if( cur == NULL )
+		return;
+	std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;	
+}
+
+void linkedlist::printListBySector() 
+{
+	printHeader("Data by Sector");
 
 	Node *cur = head_sector;
 
 	while(cur)
 	{
-		std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;
+		printData(cur);		
 		cur = cur->next_sector;
 	}
 }
 
 void linkedlist::printListByExposure()
 {
-	std::cout << "----------------------------------------------------------------------" << std::endl;
-	std::cout << "Data by Exposure" << std::endl;
-	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
+	printHeader("Data by Exposure");
 
 	Node *cur = head_exposure;
 
 	while(cur)
 	{
-		std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;
+		printData(cur);				
 		cur = cur->next_exposure;
 	}
 }
@@ -285,16 +296,13 @@ void linkedlist::printListByExposure()
 
 void linkedlist::printListBySpeed()
 {
-	std::cout << "----------------------------------------------------------------------" << std::endl;
-	std::cout << "Data by Speed" << std::endl;
-	std::cout << std::endl << "----------------------------------------------------------------------" << std::endl;
-
+	printHeader("Data by Speed");
 
 	Node *cur = head_speed;
 
 	while(cur)
 	{
-		std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;
+		printData(cur);				
 		cur = cur->next_speed;
 	}
 }
@@ -319,6 +327,43 @@ void linkedlist::printSectorList()
 		}
 		cur = cur->next_sector;
 	}
+
+	std::cout << std::endl;
+}
+
+void linkedlist::printAverage()
+{
+	Node *cur = head_sector;
+	int sector = -1;
+	int prev_sector = -1;
+	int i = 0;
+
+	surveydata survey;
+
+	int sector1 = 0, exposure = 0, speed = 0;
+
+	printHeader("Averages per sector");
+
+	while(cur)
+	{
+		sector = cur->sector;
+		if( sector != prev_sector )
+		{
+			survey.get(sector1, exposure, speed);
+			if( sector1 >= 0 )
+				std::cout << "Section: #" << sector1 << " " << exposure << "% exposure," << speed << " kh/hr windspeed" << std::endl;	
+
+			survey.init();
+			prev_sector = sector;
+		}
+		survey.pushData(cur->sector, cur->exposure, cur->speed);
+
+		cur = cur->next_sector;
+	}
+
+	survey.get(sector1, exposure, speed);
+	if( sector1 >= 0 )
+		std::cout << "Section: #" << sector1 << " " << exposure << "% exposure," << speed << " kh/hr windspeed" << std::endl;	
 
 	std::cout << std::endl;
 }

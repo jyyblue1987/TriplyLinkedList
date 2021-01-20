@@ -23,6 +23,9 @@ class linkedlist
 	Node* findSpeedNode(int sector, int exposure, int speed);
 	void updateNextPointer(Node *cur); 
 
+	void printData(Node *cur);
+	void printHeader(char* header);
+
 public:
 	linkedlist(void);
 	~linkedlist(void);
@@ -36,7 +39,7 @@ public:
 	void	printListBySpeed();
 
 	void	printSectorList();
-
+	void	printAverage();
 
 };
 
