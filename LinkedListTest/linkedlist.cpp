@@ -264,7 +264,7 @@ void linkedlist::printData(Node *cur)
 {
 	if( cur == NULL )
 		return;
-	std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure," << cur->speed << " kh/hr windspeed" << std::endl;	
+	std::cout << "Section: #" << cur->sector << " " << cur->exposure << "% exposure, " << cur->speed << " kh/hr windspeed" << std::endl;	
 }
 
 void linkedlist::printListBySector() 
@@ -366,4 +366,58 @@ void linkedlist::printAverage()
 		std::cout << "Section: #" << sector1 << " " << exposure << "% exposure," << speed << " kh/hr windspeed" << std::endl;	
 
 	std::cout << std::endl;
+}
+
+void linkedlist::printHistogram() 
+{
+	printHeader("Histogram data for exposure");
+
+	Node *cur = head_exposure;
+	int exposure = -1;
+	int prev_exposure = -1;
+	int count = 0;
+
+	while(cur)
+	{
+		exposure = cur->exposure;
+		if( exposure != prev_exposure && prev_exposure >= 0 )
+		{
+			std::cout << prev_exposure << ", " << count << std::endl;
+			count = 0;	
+		}
+
+		if( exposure != prev_exposure )
+			prev_exposure = exposure;
+
+		cur = cur->next_exposure;
+		count++;
+	}
+
+	std::cout << prev_exposure << ", " << count << std::endl;
+
+
+	printHeader("Histogram data for speed");
+
+	cur = head_speed;
+	int speed = -1;
+	int prev_speed = -1;
+	count = 0;
+
+	while(cur)
+	{
+		speed = cur->speed;
+		if( speed != prev_speed && prev_speed >= 0 )
+		{
+			std::cout << prev_speed << ", " << count << std::endl;
+			count = 0;	
+		}
+
+		if( speed != prev_speed )
+			prev_speed = speed;
+
+		cur = cur->next_speed;
+		count++;
+	}
+
+	std::cout << prev_speed << ", " << count << std::endl;
 }

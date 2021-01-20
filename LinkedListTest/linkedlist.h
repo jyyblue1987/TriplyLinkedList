@@ -40,6 +40,7 @@ public:
 
 	void	printSectorList();
 	void	printAverage();
+	void	printHistogram(); 
 
 };
 

@@ -30,6 +30,8 @@ void datalogger::printReport()
 
 	m_lk.printAverage();
 
+	m_lk.printHistogram();
+
 }
 
 void datalogger::printSectorList() 
