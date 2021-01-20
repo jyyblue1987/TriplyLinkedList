@@ -69,6 +69,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="datalogger.cpp" />
+    <ClCompile Include="linkedlist.cpp" />
+    <ClCompile Include="process.cpp" />
+    <ClCompile Include="surveydata.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="datalogger.h" />
+    <ClInclude Include="linkedlist.h" />
+    <ClInclude Include="surveydata.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
