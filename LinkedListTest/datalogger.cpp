@@ -35,5 +35,5 @@ void datalogger::printReport()
 
 void datalogger::printSectorList() 
 {
-
+	m_lk.printSectorList();
 }

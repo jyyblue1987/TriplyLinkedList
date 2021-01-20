@@ -298,3 +298,27 @@ void linkedlist::printListBySpeed()
 		cur = cur->next_speed;
 	}
 }
+
+void linkedlist::printSectorList()
+{
+	Node *cur = head_sector;
+	int sector = -1;
+	int prev_sector = -1;
+	int i = 0;
+
+	while(cur)
+	{
+		sector = cur->sector;
+		if( sector != prev_sector )
+		{
+			if( i > 0 )
+				std::cout << ", ";
+			std::cout << sector;
+			i++;
+			prev_sector = sector;
+		}
+		cur = cur->next_sector;
+	}
+
+	std::cout << std::endl;
+}

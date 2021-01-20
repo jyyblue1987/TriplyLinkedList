@@ -42,13 +42,13 @@ int main(int argc, char** argv) {
 
         if (!inDatafile.eof()) {
             data.addData(sector, exposure, speed);			
-            //if (((exposure < 0) || (speed < 0)) && !badSectorData.containsSector(sector)) {
-            //    badSectorData.addData(sector,exposure,speed);
-            //}
+			if (((exposure < 0) || (speed < 0)) && !badSectorData.containsSector(sector)) {
+				badSectorData.addData(sector,exposure,speed);
+			}
 
-            //if (badSectorData.containsSector(sector)) {
-            //    data.removeSector(sector);
-            //}
+			if (badSectorData.containsSector(sector)) {
+				data.removeSector(sector);
+			}
         }
     }
 

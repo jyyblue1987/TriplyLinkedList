@@ -35,5 +35,8 @@ public:
 	void	printListByExposure();
 	void	printListBySpeed();
 
+	void	printSectorList();
+
+
 };
 
