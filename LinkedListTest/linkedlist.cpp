@@ -38,6 +38,9 @@ void linkedlist::addNode(int sector, int exposure, int speed)
 	node->next_exposure = NULL;
 	node->next_speed = NULL;
 
+	if( speed == -1 )
+		speed = -1;
+
 	Node *sector_node = findSectorNode(sector, exposure, speed);
 	Node *exposure_node = findExposureNode(sector, exposure, speed);
 	Node *speed_node = findSpeedNode(sector, exposure, speed);
@@ -50,7 +53,10 @@ void linkedlist::addNode(int sector, int exposure, int speed)
 void linkedlist::addNodeToSectorChain(Node *prev, Node *cur) 
 {
 	if( prev == NULL )
+	{
+		cur->next_sector = head_sector;
 		head_sector = cur;
+	}
 	else
 	{
 		cur->next_sector = prev->next_sector;
@@ -61,7 +67,10 @@ void linkedlist::addNodeToSectorChain(Node *prev, Node *cur)
 void linkedlist::addNodeToExposureChain(Node *prev, Node *cur) 
 {
 	if( prev == NULL )
+	{
+		cur->next_exposure = head_exposure;
 		head_exposure = cur;
+	}
 	else
 	{
 		cur->next_exposure = prev->next_exposure;
@@ -72,7 +81,10 @@ void linkedlist::addNodeToExposureChain(Node *prev, Node *cur)
 void linkedlist::addNodeToSpeedChain(Node *prev, Node *cur) 
 {
 	if( prev == NULL )
+	{
+		cur->next_speed = head_speed;
 		head_speed = cur;
+	}
 	else
 	{
 		cur->next_speed = prev->next_speed;
@@ -86,6 +98,9 @@ Node* linkedlist::findSectorNode(int sector, int exposure, int speed)
 	Node *cur = head_sector;
 	Node *next = NULL;
 
+	if( cur != NULL && sector < cur->sector )
+		return NULL;
+
 	while(cur) 
 	{
 		next = cur->next_sector;
@@ -96,7 +111,6 @@ Node* linkedlist::findSectorNode(int sector, int exposure, int speed)
 		cur = next;
 	}
 
-
 	return cur;
 }
 
@@ -104,6 +118,9 @@ Node* linkedlist::findExposureNode(int sector, int exposure, int speed)
 {
 	Node *cur = head_exposure;
 	Node *next = NULL;
+
+	if( cur != NULL && exposure < cur->exposure )
+		return NULL;
 
 	while(cur) 
 	{
@@ -123,8 +140,11 @@ Node* linkedlist::findSpeedNode(int sector, int exposure, int speed)
 	Node *cur = head_speed;
 	Node *next = NULL;
 
+	if( cur != NULL && speed < cur->speed )
+		return NULL;
+
 	while(cur) 
-	{
+	{	
 		next = cur->next_speed;
 		if( next == NULL )
 			break;
