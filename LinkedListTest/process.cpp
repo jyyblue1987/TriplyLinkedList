@@ -2,6 +2,9 @@
 #include <fstream>
 #include "datalogger.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
 using namespace std;
 
 void createReport(datalogger& dl,const char* label)
@@ -35,13 +38,13 @@ int main(int argc, char** argv) {
     int exposure;
     int speed;
 
-    while (!inDatafile.eof()) {
-        inDatafile >> sector;
-        inDatafile >> exposure;
-        inDatafile >> speed;
+	while (!inDatafile.eof()) {
+		inDatafile >> sector;
+		inDatafile >> exposure;
+		inDatafile >> speed;
 
-        if (!inDatafile.eof()) {
-            data.addData(sector, exposure, speed);			
+		if (!inDatafile.eof()) {
+			data.addData(sector, exposure, speed);			
 			if (((exposure < 0) || (speed < 0)) && !badSectorData.containsSector(sector)) {
 				badSectorData.addData(sector,exposure,speed);
 			}
@@ -49,11 +52,16 @@ int main(int argc, char** argv) {
 			if (badSectorData.containsSector(sector)) {
 				data.removeSector(sector);
 			}
-        }
-    }
+		}
+	}
 
-    createReport(data,"Data");
-    listBadSectors(badSectorData);
+	createReport(data,"Data");
+	listBadSectors(badSectorData);
+
+	data.freeMemory();
+	badSectorData.freeMemory();
+
+	_CrtDumpMemoryLeaks();
 
     return(0);
 }

@@ -30,6 +30,8 @@ public:
 	linkedlist(void);
 	~linkedlist(void);
 
+	void freeMemory();
+
 	void	addNode(int sector, int exposure, int speed); 
 	bool	containSector(int sector);
 	void	removeSector(int sector);

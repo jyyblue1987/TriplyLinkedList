@@ -15,6 +15,11 @@ linkedlist::linkedlist(void)
 }
 
 linkedlist::~linkedlist(void) {
+	freeMemory();
+}
+
+void linkedlist::freeMemory()
+{
 	Node *cur = NULL;
 	Node *next = NULL;
 
@@ -28,6 +33,7 @@ linkedlist::~linkedlist(void) {
 	head_exposure = NULL;
 	head_speed = NULL;
 }
+
 
 void linkedlist::addNode(int sector, int exposure, int speed) 
 {

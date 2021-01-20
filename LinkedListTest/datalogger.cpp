@@ -7,6 +7,11 @@ datalogger::datalogger(void)
 {
 }
 
+void datalogger::freeMemory()
+{
+	m_lk.freeMemory();
+}
+
 void datalogger::addData(int sector, int exposure, int speed) 
 {
 	m_lk.addNode(sector, exposure, speed);
