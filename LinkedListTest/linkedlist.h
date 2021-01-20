@@ -22,8 +22,10 @@ class linkedlist
 	Node* findSectorNode(int sector, int exposure, int speed);
 	Node* findExposureNode(int sector, int exposure, int speed);
 	Node* findSpeedNode(int sector, int exposure, int speed);
+	bool	containSector(int sector);
 
-
+	void removeSector(int sector);
+	void updateNextPointer(Node *cur); 
 
 public:
 	linkedlist(void);

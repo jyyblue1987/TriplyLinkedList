@@ -136,3 +136,99 @@ Node* linkedlist::findSpeedNode(int sector, int exposure, int speed)
 
 	return cur;
 }
+
+bool linkedlist::containSector(int sector) 
+{
+	Node *cur = head_sector;
+	bool exist = false;
+	while(cur) {
+		if( cur->sector == sector )
+		{
+			exist = true;
+			break;
+		}
+		cur = cur->next_sector;
+	}
+
+	return exist;
+}
+
+void linkedlist::removeSector(int sector) 
+{
+	Node *cur = head_sector;
+	Node *prev = head_sector;
+	Node *next = NULL;
+	bool exist = false;
+	while(cur) {
+		next = cur->next_sector;
+
+		if( cur->sector == sector )
+		{
+			updateNextPointer(cur);			
+			free(cur);
+		}
+		else if( cur->sector > sector )
+			break;
+
+		cur = next;
+	}
+}
+
+void linkedlist::updateNextPointer(Node *node) 
+{
+	if( node == NULL )
+		return;
+
+	Node *cur = NULL;
+	Node *prev = NULL;
+	Node *next = NULL;
+	
+	prev = NULL;
+	cur = head_sector;
+	while(cur) {
+		next = cur->next_sector;
+
+		if( cur == node )
+		{
+			if( prev == NULL )
+				head_sector = next;
+			else
+				prev->next_sector = next;
+			break;
+		}
+		prev = cur;
+		cur = next;
+	}
+	
+	prev = NULL;
+	cur = head_exposure;
+	while(cur) {
+		next = cur->next_exposure;
+		if( cur == node )
+		{
+			if( prev == NULL )
+				head_exposure = next;
+			else
+				prev->next_exposure = next;
+			break;
+		}
+		prev = cur;
+		cur = next;
+	}
+
+	prev = NULL;
+	cur = head_speed;
+	while(cur) {
+		next = cur->next_speed;
+		if( cur == node )
+		{
+			if( prev == NULL )
+				head_speed = next;
+			else
+				prev->next_speed = next;
+			break;
+		}
+		prev = cur;
+		cur = next;
+	}
+}
