@@ -12,7 +12,5 @@ public:
 	void removeSector(int sector);
 	void printReport();
 	void printSectorList();	
-
-	void freeMemory();
 };
 
