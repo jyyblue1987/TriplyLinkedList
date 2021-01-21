@@ -18,6 +18,37 @@ linkedlist::~linkedlist(void) {
 	freeMemory();
 }
 
+linkedlist::linkedlist(const linkedlist& lk)
+{
+	head_sector = NULL;
+	head_exposure = NULL;
+	head_speed = NULL;
+
+	Node *cur = lk.head_sector;
+	
+	while(cur)
+	{
+		addNode(cur->sector, cur->exposure, cur->speed);
+		cur = cur->next_sector;
+	}
+}
+
+linkedlist& linkedlist::operator = (const linkedlist &lk) 
+{ 
+	freeMemory();
+
+	Node *cur = lk.head_sector;
+
+	while(cur)
+	{
+		addNode(cur->sector, cur->exposure, cur->speed);
+		cur = cur->next_sector;
+	}
+
+	return *this; 
+}  
+
+
 void linkedlist::freeMemory()
 {
 	Node *cur = NULL;

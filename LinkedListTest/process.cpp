@@ -58,8 +58,14 @@ int main(int argc, char** argv) {
 	createReport(data,"Data");
 	listBadSectors(badSectorData);
 
+	datalogger data1 = data;
+	datalogger data2;
+	data2 = data;
+
 	data.freeMemory();
 	badSectorData.freeMemory();
+	data1.freeMemory();
+	data2.freeMemory();
 
 	_CrtDumpMemoryLeaks();
 

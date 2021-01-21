@@ -29,6 +29,9 @@ class linkedlist
 public:
 	linkedlist(void);
 	~linkedlist(void);
+	linkedlist(const linkedlist&); 
+
+	linkedlist& operator = (const linkedlist &t); 
 
 	void freeMemory();
 
