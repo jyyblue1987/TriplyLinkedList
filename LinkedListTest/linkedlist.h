@@ -24,7 +24,7 @@ class linkedlist
 	void updateNextPointer(Node *cur); 
 
 	void printData(Node *cur);
-	void printHeader(char* header);
+	void printHeader(const char* header);
 
 public:
 	linkedlist(void);

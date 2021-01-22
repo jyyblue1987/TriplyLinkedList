@@ -290,7 +290,7 @@ void linkedlist::updateNextPointer(Node *node)
 	}
 }
 
-void linkedlist::printHeader(char* header)
+void linkedlist::printHeader(const char* header)
 {
 	std::cout << "----------------------------------------------------------------------" << std::endl;
 	std::cout << header << std::endl;
